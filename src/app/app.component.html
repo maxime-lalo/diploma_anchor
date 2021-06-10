@@ -34,6 +34,11 @@
           <div *ngIf="isConnected">
             <div class="row text-center mt-4">
               <div class="col">
+                <p>{{ balance }} ETH</p>
+              </div>
+            </div>
+            <div class="row text-center mt-4">
+              <div class="col">
                 <input type="text" class="form-control" placeholder="Hash" [(ngModel)]="hash">
               </div>
             </div>

@@ -14,6 +14,8 @@ import Web3 from 'web3';
 })
 export class AppComponent {
   isConnected: boolean = false;
+  balance: any;
+  currentAccount: any;
   web3: any;
   degreeContract: any;
   degreeAbi: any = [
@@ -134,33 +136,42 @@ export class AppComponent {
   }
 
   async connectWeb3(){
-    await window.ethereum.enable();
-    this.isConnected = true;
-    // this.web3.eth.getAccounts((err, res) => {
-    //   console.log(res);
-    //   console.log(err);
-    // });
+    try {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      if (accounts[0] != undefined){
+        this.currentAccount = accounts[0];
+        this.isConnected = true;
+        console.log("Account connected : " + accounts[0]);
+
+        this.web3.eth.getBalance(this.currentAccount, (err, balance) => {
+          this.balance = balance / 1000000000000000000;
+        });
+      }
+    } catch (error) {
+      this.isConnected = false;
+      console.log(error);
+    }
   }
 
   addHash(){
-    // this.degreeContract.methods.addHash(this.hash).send({ from: firstAccount }).on('transactionHash', function (hash) {
-    // })
-    //   .on('confirmation', function (confirmationNumber, receipt) {
-    //     console.log(receipt);
-    //   })
-    //   .on('receipt', function (receipt) {
-    //   })
-    //   .on('error', console.error)
+    this.degreeContract.methods.addHash(this.hash).send({ from: this.currentAccount }).on('transactionHash', function (hash) {
+    })
+      .on('confirmation', function (confirmationNumber, receipt) {
+        console.log(receipt);
+      })
+      .on('receipt', function (receipt) {
+      })
+      .on('error', console.error)
   }
 
   checkHash(){
-    // this.degreeContract.methods.checkHash(this.hash).send({ from: firstAccount }).on('transactionHash', function (hash) {
-    // })
-    //   .on('confirmation', function (confirmationNumber, receipt) {
-    //     console.log(receipt);
-    //   })
-    //   .on('receipt', function (receipt) {
-    //   })
-    //   .on('error', console.error)
+    this.degreeContract.methods.checkHash(this.hash).send({ from: this.currentAccount }).on('transactionHash', function (hash) {
+    })
+      .on('confirmation', function (confirmationNumber, receipt) {
+        console.log(receipt);
+      })
+      .on('receipt', function (receipt) {
+      })
+      .on('error', console.error)
   }
 }
