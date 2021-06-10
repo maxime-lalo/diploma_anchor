@@ -4,9 +4,23 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
+
+const Web3ProviderNetwork = createWeb3ReactRoot("NETWORK")
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Web3ReactProvider getLibrary={getLibrary}>
+            <Web3ProviderNetwork getLibrary={getLibrary}>
+              <Blocklist>
+                <Updaters />
+                <ThemeProvider>
+                  <ThemedGlobalStyle />
+                  <App />
+                </ThemeProvider>
+              </Blocklist>
+            </Web3ProviderNetwork>
+          </Web3ReactProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
