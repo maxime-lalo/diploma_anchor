@@ -6,6 +6,7 @@ declare global {
 }
 import { Component } from '@angular/core';
 import Web3 from 'web3';
+import * as myGlobals from './global';
 
 @Component({
   selector: 'app-root',
@@ -18,107 +19,8 @@ export class AppComponent {
   currentAccount: any;
   web3: any;
   degreeContract: any;
-  degreeAbi: any = [
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "last_completed_migration",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "owner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "fileHash",
-          "type": "string"
-        }
-      ],
-      "name": "addHash",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "fileHash",
-          "type": "string"
-        }
-      ],
-      "name": "checkHash",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "a",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "b",
-          "type": "string"
-        }
-      ],
-      "name": "compareStrings",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "pure",
-      "type": "function"
-    }
-  ]
-  degreeAddr: string = '0x155180faABC6bBD85de6bb9Bff7e79a91c1682CE'
+  degreeAbi: any = myGlobals.abiContract;
+  degreeAddr: string = myGlobals.contractAddress;
   hash: string;
   constructor(){
     if (typeof window.web3 !== 'undefined') {
