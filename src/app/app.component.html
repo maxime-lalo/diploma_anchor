@@ -1,0 +1,68 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Diploma Anchor</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="text-center">
+          <img [src]="imagePath" alt="Diploma Anchor">
+    </div>
+    <div class="row text-center mt-4" *ngIf="!isConnected">
+        <div class="col">
+            <button (click)="connectWeb3()" class="btn btn-primary">
+              <i class="fas fa-sign-in-alt"></i>
+              Se connecter
+            </button>
+        </div>
+    </div>
+    <div *ngIf="isConnected">
+      <div class="row text-center mt-4">
+        <div class="col mb-2">
+          <h2>{{ balance }} ETH</h2>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-3">
+          <input type="text" class="form-control" placeholder="Prénom" [(ngModel)]="name">
+        </div>
+        <div class="col-3">
+          <input type="text" class="form-control" placeholder="Nom" [(ngModel)]="lastName">
+        </div>
+      </div>
+      <div class="row mt-4 justify-content-center">
+        <div class="col-3">
+          <input type="text" class="form-control" placeholder="Année" [(ngModel)]="year">
+        </div>
+        <div class="col-3">
+          <input type="text" class="form-control" placeholder="Nom du diplôme" [(ngModel)]="diplomaName">
+        </div>
+      </div>
+      <div class="row text-center justify-content-center">
+        <div class="col-3">
+          <button class="btn btn-success mt-2 ml-2" (click)="addHash()" [attr.disabled]="(name == '' || lastName == '' || year == '' || diplomaName == '') ? true:null">
+            <i class="fa fa-plus"></i> Ajouter le diplôme
+          </button>
+        </div>
+        <div class="col-3">
+          <button class="btn btn-primary mt-2" (click)="checkHash()" [attr.disabled]="(name == '' || lastName == '' || year == '' || diplomaName == '') ? true:null">
+            <i class="fas fa-check"></i>
+            Vérifier le diplôme
+          </button>
+        </div>
+      </div>
+    </div>
+</div>
