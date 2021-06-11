@@ -7,6 +7,8 @@ declare global {
 import { Component } from '@angular/core';
 import Web3 from 'web3';
 import * as myGlobals from './global';
+import sha256 from 'sha256';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-root',
@@ -14,28 +16,46 @@ import * as myGlobals from './global';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  /**
+   * Frontend variables
+   */
+  balance: any = "Loading your balance";
   isConnected: boolean = false;
-  balance: any;
+  imagePath: any = "assets/logo.png";
+  
+  /**
+   * Web3 variables
+   */
   currentAccount: any;
   web3: any;
+
+  /**
+   * Contract variables
+   */
   degreeContract: any;
   degreeAbi: any = myGlobals.abiContract;
   degreeAddr: string = myGlobals.contractAddress;
-  hash: string;
+
+  /**
+   * Inputs variables
+   */
+  name: string = "";
+  lastName: string = "";
+  year: string = "";
+  diplomaName: string = "";
+  
   constructor(){
     if (typeof window.web3 !== 'undefined') {
       this.web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/f502d2b02a8442d09b3eca464acc41b9"));
       this.degreeContract = new this.web3.eth.Contract(this.degreeAbi, this.degreeAddr);
+
+      this.connectWeb3();
     } else {
-      console.warn(
-        'Please use a dapp browser like mist or MetaMask plugin for chrome'
-      );
+      console.warn('Please use a dapp browser like mist or MetaMask plugin for chrome');
     }
   }
 
-  ngOnInit(){
-    
-  }
+  ngOnInit(){}
 
   async connectWeb3(){
     try {
@@ -43,7 +63,6 @@ export class AppComponent {
       if (accounts[0] != undefined){
         this.currentAccount = accounts[0];
         this.isConnected = true;
-        console.log("Account connected : " + accounts[0]);
 
         this.web3.eth.getBalance(this.currentAccount, (err, balance) => {
           this.balance = balance / 1000000000000000000;
@@ -54,26 +73,47 @@ export class AppComponent {
       console.log(error);
     }
   }
+  
 
   addHash(){
-    this.degreeContract.methods.addHash(this.hash).send({ from: this.currentAccount }).on('transactionHash', function (hash) {
-    })
-      .on('confirmation', function (confirmationNumber, receipt) {
-        console.log(receipt);
-      })
-      .on('receipt', function (receipt) {
-      })
-      .on('error', console.error)
+    let hash = this.getHash();
+    Swal.fire({
+      title: 'Succès',
+      text: 'Le diplôme a bien été ajouté dans la blockchain',
+      icon: 'success',
+      confirmButtonText: 'Cool&nbsp;&nbsp;&nbsp;<i class="fas fa-thumbs-up"></i>'
+    });
+
+    this.degreeContract.methods.addHash(hash).send({ from: this.currentAccount }).on('transactionHash', function (hash) {
+    }).on('confirmation', function (confirmationNumber, receipt) {
+      console.log(receipt);
+    }).on('receipt', function (receipt) {
+    }).on('error', console.error)
   }
 
   checkHash(){
-    this.degreeContract.methods.checkHash(this.hash).send({ from: this.currentAccount }).on('transactionHash', function (hash) {
-    })
-      .on('confirmation', function (confirmationNumber, receipt) {
+    let hash = this.getHash();
+    Swal.fire({
+      title: 'Succès',
+      text: 'Le diplôme est bien présent dans la blockchain',
+      icon: 'success',
+      confirmButtonText: 'Cool&nbsp;&nbsp;&nbsp;<i class="fas fa-thumbs-up"></i>'
+    });
+    this.degreeContract.methods.checkHash(hash).send({ from: this.currentAccount }).on('transactionHash', function (hash) {
+    }).on('confirmation', function (confirmationNumber, receipt) {
         console.log(receipt);
-      })
-      .on('receipt', function (receipt) {
-      })
-      .on('error', console.error)
+    }).on('receipt', function (receipt) {
+    }).on('error', console.error)
+  }
+
+  getHash(){
+    let obj: any = {
+      "name": this.name,
+      "lastName": this.lastName,
+      "year": this.year,
+      "diplomaName": this.diplomaName
+    }
+    let diploma : JSON = <JSON>obj;
+    return sha256(JSON.stringify(diploma));
   }
 }

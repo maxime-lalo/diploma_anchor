@@ -1,56 +1,68 @@
-<html>
-    <head>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    </head>
-    <body>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <div class="container-fluid">
-              <a class="navbar-brand" href="#">Diploma Anchor</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                      <li class="nav-item">
-                          <a class="nav-link active" aria-current="page" href="#">Home</a>
-                      </li>
-                      <li class="nav-item">
-                          <a class="nav-link" href="#">Link</a>
-                      </li>
-                  </ul>
-              </div>
-          </div>
-      </nav>
-      <div class="container-fluid">
-          <div class="row text-center mt-4" *ngIf="!isConnected">
-              <div class="col">
-                  <button (click)="connectWeb3()" class="btn btn-primary">Se connecter</button>
-              </div>
-          </div>
-          <div *ngIf="isConnected">
-            <div class="row text-center mt-4">
-              <div class="col">
-                <p>{{ balance }} ETH</p>
-              </div>
-            </div>
-            <div class="row text-center mt-4">
-              <div class="col">
-                <input type="text" class="form-control" placeholder="Hash" [(ngModel)]="hash">
-              </div>
-            </div>
-            <div class="row text-center">
-              <div class="col">
-                <button class="btn btn-primary mt-2 ml-2" (click)="addHash()">Ajouter le hash</button>
-              </div>
-              <div class="col">
-                <button class="btn btn-primary mt-2" (click)="checkHash()">Checker le hash</button>
-              </div>
-            </div>
-          </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Diploma Anchor</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="text-center">
+          <img [src]="imagePath" alt="Diploma Anchor">
+    </div>
+    <div class="row text-center mt-4" *ngIf="!isConnected">
+        <div class="col">
+            <button (click)="connectWeb3()" class="btn btn-primary">
+              <i class="fas fa-sign-in-alt"></i>
+              Se connecter
+            </button>
+        </div>
+    </div>
+    <div *ngIf="isConnected">
+      <div class="row text-center mt-4">
+        <div class="col mb-2">
+          <h2>{{ balance }} ETH</h2>
+        </div>
       </div>
-  </body>
-</html>
+      <div class="row justify-content-center">
+        <div class="col-3">
+          <input type="text" class="form-control" placeholder="Prénom" [(ngModel)]="name">
+        </div>
+        <div class="col-3">
+          <input type="text" class="form-control" placeholder="Nom" [(ngModel)]="lastName">
+        </div>
+      </div>
+      <div class="row mt-4 justify-content-center">
+        <div class="col-3">
+          <input type="text" class="form-control" placeholder="Année" [(ngModel)]="year">
+        </div>
+        <div class="col-3">
+          <input type="text" class="form-control" placeholder="Nom du diplôme" [(ngModel)]="diplomaName">
+        </div>
+      </div>
+      <div class="row text-center justify-content-center">
+        <div class="col-3">
+          <button class="btn btn-success mt-2 ml-2" (click)="addHash()" [attr.disabled]="(name == '' || lastName == '' || year == '' || diplomaName == '') ? true:null">
+            <i class="fa fa-plus"></i> Ajouter le diplôme
+          </button>
+        </div>
+        <div class="col-3">
+          <button class="btn btn-primary mt-2" (click)="checkHash()" [attr.disabled]="(name == '' || lastName == '' || year == '' || diplomaName == '') ? true:null">
+            <i class="fas fa-check"></i>
+            Vérifier le diplôme
+          </button>
+        </div>
+      </div>
+    </div>
+</div>
