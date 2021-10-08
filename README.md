@@ -57,14 +57,6 @@ $ cd diploma_anchor
 
 [comment]: <> (A list of frequently asked questions)
 
-## Contributors
-
-This project exists thanks to all the people who contribute.
-
-<a href="https://github.com/Lutenruto/diploma_anchor/graphs/contributors">
-    <img src="https://zupimages.net/up/21/15/yc46.png" alt="" width="100" />
-</a>
-
 ## 📑 License
 [comment]: <> (***)
 
